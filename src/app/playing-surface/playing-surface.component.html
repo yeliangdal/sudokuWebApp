@@ -1,0 +1,21 @@
+<p>
+  playing-surface works!
+</p>
+<div [(ngModel)]="numbersInGrid" ngDefaultControl>
+  <table style="width:50%">
+    <tr>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+    </tr>
+    <tr *ngFor="let numbers of numbersInGrid">
+      <td *ngFor="let number of numbers">{{number}}</td>
+    </tr>
+  </table>
+</div>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlayingGridComponent } from './playing-grid.component';
+import { PlayingSurfaceComponent } from './playing-surface.component';
 
-describe('PlayingGridComponent', () => {
-  let component: PlayingGridComponent;
-  let fixture: ComponentFixture<PlayingGridComponent>;
+describe('PlayingSurfaceComponent', () => {
+  let component: PlayingSurfaceComponent;
+  let fixture: ComponentFixture<PlayingSurfaceComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlayingGridComponent ]
+      declarations: [ PlayingSurfaceComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlayingGridComponent);
+    fixture = TestBed.createComponent(PlayingSurfaceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
