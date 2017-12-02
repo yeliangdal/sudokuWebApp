@@ -12,28 +12,32 @@ export class NumberGeneratorService {
 
   public generateNumberGrid(): number[][] {
     this.initNumberGrid();
-    let num = 10;
+    let num = -1;
     for (let i = 0; i < 9; i++) {
       this.resetRecordArray();
       for (let j = 0; j < 9; j++) {
         num = this.getRandomInt(1, 10);
         this.numberGrid[i][j] = num;
-        if (this.recordArray.length === 0 && !this.isValid(this.numberGrid)) {
-          console.log("here");
-          j = 0;
+        if (j === 8 && !this.isGridValid(this.numberGrid)) {
+          for (let k = 0; k < 9; k++) {
+            this.numberGrid[i][k] = -1;
+          }
+
         }
-        // while (!this.isValid(this.numberGrid)) {
+
+        // else if (!this.isGridValid(this.numberGrid) {
         //   num = this.getRandomInt(1, 10);
         //   this.numberGrid[i][j] = num;
+        //   while (!this.isGridValid(this.numberGrid) {
+        //     console.log('Here');
+        //     num = this.getRandomInt(1, 10);
+        //     this.numberGrid[i][j] = num;
+        //   }
         // }
       }
     }
-    // console.log(this.recordArray);
-    // for (let i = 0; i < 9; i++) {
-    //   num = this.getRandomInt(1, 10);
-    //   console.log(num);
-    //   console.log(this.recordArray);
-    // }
+    console.log(this.numberGrid);
+    console.log(this.numberGrid[2][5]);
     return this.numberGrid;
   }
 
@@ -51,6 +55,67 @@ export class NumberGeneratorService {
     }
   }
 
+  // /**
+  //  * Check if a given number is valid in a given
+  //  * @param numberGrid: number[][]
+  //  * @param value: number
+  //  * @param x: number column index
+  //  * @param y: number row index
+  //  * */
+  // isValid(numberGrid: number[][], value: number, x: number, y: number) {
+  //   let list: number[] = [];
+  //   if (value < 1 || value > 9) {
+  //     return false;
+  //   }
+  //   // check the length of the grid
+  //   if (numberGrid.length !== 9) {
+  //     console.log(1);
+  //     return false;
+  //   }
+  //   for (let i = 0; i < 9; i++) {
+  //     if (numberGrid[i].length !== 9) {
+  //       console.log(2, i);
+  //       return false;
+  //     }
+  //   }
+  //
+  //   const copyGrid = numberGrid.slice();
+  //   copyGrid[x][y] = value;
+  //   // check row
+  //   for (let i = 0; i < 9; i++) {
+  //     list.push(copyGrid[x][i]);
+  //   }
+  //   if (this.checkDuplicatedNumber(list)) {
+  //     return false;
+  //   }
+  //
+  //   // check column
+  //   list = [];
+  //   for (let i = 0; i < 9; i++) {
+  //     list.push(copyGrid[i][y]);
+  //   }
+  //   if (this.checkDuplicatedNumber(list)) {
+  //     return false;
+  //   }
+  //
+  //   // check 3x3 grid
+  //   list = [];
+  //   if(x<4&&y<4){
+  //     for (let i = 0; i < 3; i++) {
+  //       for (let j = 0; j < 3; j++) {
+  //         list.push(numberGrid[j][i]);
+  //       }
+  //     }
+  //   } else if(x>3&&x<7&&y<4) {
+  //
+  //   }
+  //   if (this.checkDuplicatedNumber(list)) {
+  //     return false;
+  //   }
+  //
+  // }
+
+
   resetRecordArray() {
     for (let i = 0; i < 9; i++) {
       this.recordArray[i] = i + 1;
@@ -59,9 +124,7 @@ export class NumberGeneratorService {
 
   getRandomInt(min, max) {
     if (this.recordArray.length === 1) {
-      const ret = this.recordArray[0];
-      this.recordArray.pop();
-      return ret;
+      return this.recordArray.pop();
     }
     let num = Math.floor(Math.random() * (max - min)) + min;
     while (this.recordArray.indexOf(num) === -1) {
@@ -81,7 +144,7 @@ export class NumberGeneratorService {
   /**
    * Check if a given grid of numbers (9X9) is valid
    **/
-  isValid(numberGrid: number[][]) {
+  isGridValid(numberGrid: number[][]) {
     let list: number[] = [];
     // check the length of the grid
     if (numberGrid.length !== 9) {
@@ -94,7 +157,7 @@ export class NumberGeneratorService {
         return false;
       }
     }
-    // // check number values
+    // check number values
     // for (let i = 0; i < 9; i++) {
     //   for (let j = 0; j < 9; j++) {
     //     if (numberGrid[i][j] < 1 || numberGrid[i][j] > 9) {

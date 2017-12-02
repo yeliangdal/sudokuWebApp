@@ -15,7 +15,7 @@ export class PlayingSurfaceComponent implements OnInit {
     // this.numbersInGrid = testdata;
 
     this.numbersInGrid = this.numberGeneratorService.generateNumberGrid();
-    // console.log(this.numbersInGrid );
+    console.log(this.numberGeneratorService.isGridValid(testdata1) );
   }
 
 }
