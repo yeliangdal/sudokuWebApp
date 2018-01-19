@@ -15,6 +15,7 @@ export class NumberGeneratorService {
     let num = -1;
     for (let i = 0; i < 9; i++) {
       this.resetRecordArray();
+      console.log('i=', i);
       for (let j = 0; j < 9; j++) {
         num = this.getRandomInt(1, 10);
         this.numberGrid[i][j] = num;
@@ -22,22 +23,18 @@ export class NumberGeneratorService {
           for (let k = 0; k < 9; k++) {
             this.numberGrid[i][k] = -1;
           }
-
+          j = 0;
+          this.resetRecordArray();
         }
-
-        // else if (!this.isGridValid(this.numberGrid) {
-        //   num = this.getRandomInt(1, 10);
-        //   this.numberGrid[i][j] = num;
-        //   while (!this.isGridValid(this.numberGrid) {
-        //     console.log('Here');
-        //     num = this.getRandomInt(1, 10);
-        //     this.numberGrid[i][j] = num;
-        //   }
-        // }
+        else if (!this.isGridValid(this.numberGrid)) {
+          while (!this.isGridValid(this.numberGrid)) {
+            num = this.getRandomInt(1, 10);
+            this.numberGrid[i][j] = num;
+          }
+          this.updateRecordArray(num);
+        }
       }
     }
-    console.log(this.numberGrid);
-    console.log(this.numberGrid[2][5]);
     return this.numberGrid;
   }
 
@@ -55,8 +52,9 @@ export class NumberGeneratorService {
     }
   }
 
+
   // /**
-  //  * Check if a given number is valid in a given
+  //  * Check if a given number is valid in a given grid
   //  * @param numberGrid: number[][]
   //  * @param value: number
   //  * @param x: number column index
@@ -122,6 +120,15 @@ export class NumberGeneratorService {
     }
   }
 
+  updateRecordArray(num) {
+    const index = this.recordArray.indexOf(num);
+    if (index === this.recordArray.length - 1) {
+      this.recordArray.pop();
+    }else {
+      this.recordArray = this.recordArray.slice(0, index).concat(this.recordArray.slice(index + 1, this.recordArray.length));
+    }
+  }
+
   getRandomInt(min, max) {
     if (this.recordArray.length === 1) {
       return this.recordArray.pop();
@@ -130,14 +137,14 @@ export class NumberGeneratorService {
     while (this.recordArray.indexOf(num) === -1) {
       num = Math.floor(Math.random() * (max - min)) + min;
     }
-    if (this.recordArray.indexOf(num) > -1) {
-      const index = this.recordArray.indexOf(num);
-      if (index === this.recordArray.length - 1) {
-        this.recordArray.pop();
-      }else {
-        this.recordArray = this.recordArray.slice(0, index).concat(this.recordArray.slice(index + 1, this.recordArray.length));
-      }
-    }
+    // if (this.recordArray.indexOf(num) > -1) {
+    //   const index = this.recordArray.indexOf(num);
+    //   if (index === this.recordArray.length - 1) {
+    //     this.recordArray.pop();
+    //   }else {
+    //     this.recordArray = this.recordArray.slice(0, index).concat(this.recordArray.slice(index + 1, this.recordArray.length));
+    //   }
+    // }
     return num;
   }
 
@@ -209,12 +216,12 @@ export class NumberGeneratorService {
     return true;
   }
   /**
-   * Check if a given array contains duplicated numbers
+   * Check if a given array contains duplicated numbers other than -1
    * */
   checkDuplicatedNumber(numbers: number[]) {
-    const sortedNum = numbers.slice().sort();
+    const sortedNumbers = numbers.slice().sort();
     for (let i = 0; i < numbers.length - 1; i++) {
-      if (sortedNum[i] === sortedNum[i + 1] && sortedNum[i] !== -1) {
+      if (sortedNumbers[i] === sortedNumbers[i + 1] && sortedNumbers[i] !== -1) {
         return true;
       }
     }
